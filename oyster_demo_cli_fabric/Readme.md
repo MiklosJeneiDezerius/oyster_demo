@@ -1,0 +1,1 @@
+This is an auto-created file for oyster_demo_cli_fabric

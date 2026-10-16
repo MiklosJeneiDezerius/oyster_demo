@@ -1,0 +1,14 @@
+version: 2
+
+sources:
+  - name: landing_delta
+    database: lh_oysterlake
+    schema: oyster # Fix: Changed from dbo to match your explorer schema block
+    tables:
+      - name: customers
+        identifier: ld_oys_customer.csv # Maps directly to the table name in your screenshot
+      - name: cards
+        identifier: ld_oys_debitcard.csv
+      - name: transactions
+        identifier: ld_oys_transaction_ledger.csv
+

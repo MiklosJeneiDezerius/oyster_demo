@@ -5,10 +5,12 @@ sources:
     database: lh_oysterlake
     schema: oyster # Fix: Changed from dbo to match your explorer schema block
     tables:
-      - name: customers
+      - name: customer
         identifier: ld_oys_customer.csv # Maps directly to the table name in your screenshot
-      - name: cards
+      - name: debitcard
         identifier: ld_oys_debitcard.csv
-      - name: transactions
+      - name: transaction
         identifier: ld_oys_transaction_ledger.csv
+      - name: account
+        identifier: ld_oys_account.csv
 

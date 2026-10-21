@@ -1,0 +1,161 @@
+{
+  "properties": {
+    "activities": [
+      {
+        "type": "TridentNotebook",
+        "typeProperties": {
+          "notebookId": "19f9cc5a-204b-b219-4b19-1705ee1ae23f",
+          "workspaceId": "00000000-0000-0000-0000-000000000000",
+          "parameters": {
+            "p_source_sytem_cd": {
+              "value": "OYS",
+              "type": "string"
+            },
+            "p_subfolder_path": {
+              "value": "Oyster",
+              "type": "string"
+            },
+            "p_in_table_name": {
+              "value": "Transaction_Ledger.csv",
+              "type": "string"
+            },
+            "p_lakehouse_name": {
+              "value": "lh_oysterlake",
+              "type": "string"
+            }
+          }
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Create table - Transaction_Ledger",
+        "dependsOn": [
+          {
+            "activity": "Create table - Customer",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          },
+          {
+            "activity": "Create table - Account",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          },
+          {
+            "activity": "Create table - DebitCard",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "TridentNotebook",
+        "typeProperties": {
+          "notebookId": "19f9cc5a-204b-b219-4b19-1705ee1ae23f",
+          "workspaceId": "00000000-0000-0000-0000-000000000000",
+          "parameters": {
+            "p_source_sytem_cd": {
+              "value": "OYS",
+              "type": "string"
+            },
+            "p_subfolder_path": {
+              "value": "Oyster",
+              "type": "string"
+            },
+            "p_in_table_name": {
+              "value": "Account.csv",
+              "type": "string"
+            },
+            "p_lakehouse_name": {
+              "value": "lh_oysterlake",
+              "type": "string"
+            }
+          }
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Create table - Account",
+        "dependsOn": []
+      },
+      {
+        "type": "TridentNotebook",
+        "typeProperties": {
+          "notebookId": "19f9cc5a-204b-b219-4b19-1705ee1ae23f",
+          "workspaceId": "00000000-0000-0000-0000-000000000000",
+          "parameters": {
+            "p_source_sytem_cd": {
+              "value": "OYS",
+              "type": "string"
+            },
+            "p_subfolder_path": {
+              "value": "Oyster",
+              "type": "string"
+            },
+            "p_in_table_name": {
+              "value": "Customer.csv",
+              "type": "string"
+            },
+            "p_lakehouse_name": {
+              "value": "lh_oysterlake",
+              "type": "string"
+            }
+          }
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Create table - Customer",
+        "dependsOn": []
+      },
+      {
+        "type": "TridentNotebook",
+        "typeProperties": {
+          "notebookId": "19f9cc5a-204b-b219-4b19-1705ee1ae23f",
+          "workspaceId": "00000000-0000-0000-0000-000000000000",
+          "parameters": {
+            "p_source_sytem_cd": {
+              "value": "OYS",
+              "type": "string"
+            },
+            "p_subfolder_path": {
+              "value": "Oyster",
+              "type": "string"
+            },
+            "p_in_table_name": {
+              "value": "DebitCard.csv",
+              "type": "string"
+            },
+            "p_lakehouse_name": {
+              "value": "lh_oysterlake",
+              "type": "string"
+            }
+          }
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Create table - DebitCard",
+        "dependsOn": []
+      }
+    ]
+  }
+}

@@ -1,0 +1,138 @@
+{
+  "properties": {
+    "activities": [
+      {
+        "type": "TridentNotebook",
+        "typeProperties": {
+          "notebookId": "435a157e-ebf5-ae80-4393-10a6962a7b10",
+          "workspaceId": "00000000-0000-0000-0000-000000000000",
+          "parameters": {
+            "num_customers": {
+              "value": {
+                "value": "@pipeline().parameters.input_num_customers",
+                "type": "Expression"
+              },
+              "type": "int"
+            }
+          }
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "generate_data_to_deltalake",
+        "dependsOn": []
+      },
+      {
+        "type": "InvokeDataBuildToolJob",
+        "typeProperties": {
+          "dataBuildToolJobId": "294602c3-c24a-8378-4462-a918e7d9d656",
+          "workspaceId": "00000000-0000-0000-0000-000000000000",
+          "threads": 4,
+          "operation": "build"
+        },
+        "externalReferences": {
+          "connection": "172d1a7e-394f-4a23-839e-4a291cb76167"
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "run_dbt",
+        "dependsOn": [
+          {
+            "activity": "Create Delta Tables in Lakehouse",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "PBISemanticModelRefresh",
+        "typeProperties": {
+          "method": "POST",
+          "groupId": "f81a5870-10ab-4f71-91a1-7e6567c42917",
+          "datasetId": "7dc92945-d2ee-4fd9-b980-c11af55e6b32",
+          "commitMode": "Transactional",
+          "objects": [
+            {
+              "table": "gold_dim_date"
+            },
+            {
+              "table": "gold_dim_customers"
+            },
+            {
+              "table": "gold_fct_card_transactions"
+            },
+            {
+              "table": "analytics_customer_risk_profile"
+            }
+          ],
+          "waitOnCompletion": true,
+          "operationType": "SemanticModelRefresh"
+        },
+        "externalReferences": {
+          "connection": "cbe086b5-9d49-4561-8700-5a9616c45af7"
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Refresh Oyster Semantic Model",
+        "dependsOn": [
+          {
+            "activity": "run_dbt",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "InvokePipeline",
+        "typeProperties": {
+          "parameters": {},
+          "waitOnCompletion": true,
+          "workspaceId": "00000000-0000-0000-0000-000000000000",
+          "pipelineId": "4454e2e6-4c72-9f16-4b59-d4fb6c84209f",
+          "operationType": "InvokeFabricPipeline"
+        },
+        "externalReferences": {
+          "connection": "339168a1-80c8-4dfe-afc0-e1072653b1bf"
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Create Delta Tables in Lakehouse",
+        "dependsOn": [
+          {
+            "activity": "generate_data_to_deltalake",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      }
+    ],
+    "parameters": {
+      "input_num_customers": {
+        "type": "int",
+        "defaultValue": 0
+      }
+    }
+  }
+}

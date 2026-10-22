@@ -1,0 +1,33 @@
+name: 'oyster_bank_dbt'
+version: '1.0.0'
+config-version: 2
+
+profile: 'oyster_bank_dbt'
+
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+snapshots:
+  oyster_bank_dbt:
+    +dbt_valid_from: "CAST(GETDATE() AS DATETIME2(6))"
+    +dbt_valid_to: "CAST(NULL AS DATETIME2(6))"
+    
+models:
+  oyster_bank_dbt:
+    "010_bronze":
+      +materialized: table
+      +schema: bronze
+    "020_silver":
+      +materialized: table
+      +schema: silver
+    "030_gold":
+      +materialized: table
+      +schema: gold

@@ -1,0 +1,8 @@
+{
+  "files_to_load": [
+    "Customer.csv",
+    "Account.csv",
+    "DebitCard.csv",
+    "Transaction_Ledger.csv"
+  ]
+}
